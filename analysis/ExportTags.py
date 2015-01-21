@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Sushant'
 import json
-import csv
-from ReadJSONDump import ReadJSONDump
-import guess_language
-from BeautifulSoup import BeautifulSoup
 import hashlib
 import os
+
+import guess_language
+from BeautifulSoup import BeautifulSoup
+
+from ReadJSONDump import ReadJSONDump
 from UnicodeCSV import UnicodeWriter
+
 
 class ExportTags(ReadJSONDump):
     def __init__(self, input_file, output_file_tags, output_file_redo):
@@ -17,8 +19,8 @@ class ExportTags(ReadJSONDump):
         self.save_tags(output_file_tags)
         self.save_redo(output_file_redo)
 
-    def load_json(self, input_file, load_ids_only = False):
-        with open (input_file, "rb") as in_file:
+    def load_json(self, input_file, load_ids_only=False):
+        with open(input_file, "rb") as in_file:
             while True:
                 ret = self.sequential_read_line(in_file)
                 if ret is not None:
@@ -54,7 +56,6 @@ class ExportTags(ReadJSONDump):
 
             uri = json_object['uri']
 
-
             language = ""
             try:
                 m = hashlib.md5()
@@ -66,7 +67,7 @@ class ExportTags(ReadJSONDump):
                     language = guess_language.guess_language(soup.contents[0])
                 else:
                     text_2 = description + text
-                    if len(text_2) <  20:
+                    if len(text_2) < 20:
                         text_2 = title + text_2
 
                     if len(text_2) > 10:
@@ -76,7 +77,7 @@ class ExportTags(ReadJSONDump):
                 self.redo.append(uri)
                 return
 
-            row = [str(domain_id), domain, sub_domain_digest, sub_domain, uri_digest, language ]
+            row = [str(domain_id), domain, sub_domain_digest, sub_domain, uri_digest, language]
             self.tags.append(row)
 
     def save_tags(self, output_file):
@@ -93,6 +94,7 @@ class ExportTags(ReadJSONDump):
             writer = UnicodeWriter(o_file, delimiter=",")
             for row in self.redo:
                 writer.writerow([row])
+
 
 cwd = os.path.curdir
 json_file = os.path.join(cwd, "..", "data", "raw", "round2.json")
