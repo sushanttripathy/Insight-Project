@@ -5,6 +5,7 @@ from collections import namedtuple
 
 import cv2
 import numpy
+import copy
 
 
 Rect = namedtuple("Rect", "x y width height")
@@ -24,7 +25,11 @@ class Image(object):
             self.image_mat = cv2.imread(file_name)
         return
 
-    def resize_image(self, width=-1, height=-1, maintain_aspect_ratio=1):
+    def copy_mat(self, numpy_mat):
+        mat_copy = copy.deepcopy(numpy_mat)
+        self.image_mat = mat_copy
+
+    def resize_image(self, width=-1, height=-1, maintain_aspect_ratio=True):
         if self.image_mat is not None:
             old_width = self.image_mat.shape[1]
             old_height = self.image_mat.shape[0]
@@ -75,6 +80,17 @@ class Image(object):
         if self.image_mat is not None:
             cv2.imwrite(file_name, self.image_mat)
         return
+
+    def get_roi_mat(self, roi):
+        if self.image_mat is not None:
+            roi_mat = self.image_mat[roi[1]:roi[1] + roi[3], roi[0]:roi[0] + roi[2]]
+            return roi_mat
+        return None
+
+    def save_roi(self, roi, file_name):
+        if self.image_mat is not None:
+            roi_to_save = self.image_mat[roi[1]:roi[1] + roi[3], roi[0]:roi[0] + roi[2]]
+            cv2.imwrite(file_name, roi_to_save)
 
     def image_gaussian_blur(self, locations, blur_block_size=5):
         if self.image_mat is not None and type(locations) is list and len(locations):
@@ -155,4 +171,38 @@ class Image(object):
             if std_0 != std_1 or std_1 != std_2:
                 return 1
         return 0
+
+    def orient_with_PCA(self):
+        if self.image_mat is not None:
+            img = cv2.cvtColor(self.image_mat, cv2.COLOR_BGR2GRAY)
+            vector_size = img.shape[0] * img.shape[1]
+            vectorized_image = numpy.empty([vector_size, 3], numpy.float32)
+            count = 0
+            for y in range(0, img.shape[0]):
+                for x in range(0, img.shape[1]):
+                    intensity = img[y][x]
+                    vectorized_image[count] = [x, y, intensity]
+                    count += 1
+
+            mean, eigenvectors = cv2.PCACompute(data=vectorized_image)
+            for cnt, e in enumerate(eigenvectors):
+                # consider the first eigenvector
+                rows = img.shape[0]
+                cols = img.shape[1]
+                ox = cols / 2
+                oy = rows / 2
+
+                if cnt < 1:
+                    #image1 = copy.deepcopy(img)
+                    angle = 0
+                    if e[0]:
+                        angle = numpy.arctan(e[1] / e[0]) * 180.0 / numpy.pi
+                    if angle:
+                        #M1 = cv2.getRotationMatrix2D((ox, oy), angle, 1)
+                        #image1 = cv2.warpAffine(img, M1, (cols, rows))
+                        #return image1
+                        self.rotate_image(angle-90, ox, oy)
+
+
+
 

@@ -1,0 +1,168 @@
+@font-face {
+    font-family: "Raleway-Medium";
+    src: url("../fonts/Raleway-Medium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Raleway-Bold";
+    src: url("../fonts/Raleway-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Raleway-Light";
+    src: url("../fonts/Raleway-Light.otf") format("opentype");
+}
+
+body {
+    background: none repeat scroll 0 0 #fffffe;
+    color: #606161;
+    font-family: Raleway-Medium;
+}
+
+a {
+    color: #a2a1a0;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #cecece;
+}
+
+textarea:focus, input:focus {
+    outline: 0;
+}
+
+.main_table {
+    width: 100%;
+}
+
+.top_header {
+    background: none repeat scroll 0 0 #999999;
+    color: #e5e5e5;
+    height: 81px;
+    padding: 5px 8%;
+}
+
+.logo {
+    float: left;
+}
+
+.top_menu {
+    float: left;
+    font-family: Raleway-Bold;
+    margin-left: 75px;
+    margin-top: 51px;
+}
+
+.top_menu li {
+    display: inline;
+}
+
+.top_menu a {
+    color: #e5e5e5;
+    text-decoration: none;
+}
+
+.text_row {
+    background: none repeat scroll 0 0 #fffffe;
+    margin-left: 8px;
+    min-height: 300px;
+    padding: 25px 8%;
+    height: auto;
+}
+
+.note_div {
+    background: url("../images/note.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 215px;
+    line-height: 28px;
+    margin-top: 15px;
+    overflow: hidden;
+    padding: 25px 37px 38px 25px;
+    width: 457px;
+}
+
+.footer_row {
+    background: none repeat scroll 0 0 #cccccc;
+    border-top: 1px solid #b6b6b6;
+    min-height: 80px;
+    padding: 25px 8%;
+}
+
+.footer_row_inner {
+    padding-left: 8px;
+    font-family: Raleway-Light;
+}
+
+.label_div {
+    color: rgb(96, 93, 97) !important;
+}
+
+.input_container {
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 6px;
+    height: 60px;
+    margin-bottom: 10px;
+    padding: 5px !important;
+}
+
+.url_input {
+    margin-right: 10px;
+}
+
+.upload_div {
+    margin-left: 10px;
+}
+
+#beach_life {
+    padding-top: 50px !important;
+    padding-left: 34px !important;
+}
+
+.demo_image {
+    height: 200px;
+    margin-right: 10px;
+    max-width: 300px;
+}
+
+#demo_images > div {
+    float: left;
+}
+
+.ui-tooltip, .qtip {
+    max-width: 550px !important;
+}
+
+#reply-div {
+    font-size: 18px;
+    line-height: 21px;
+}
+
+#demo_div {
+    display: none;
+    margin-top: 15px;
+}
+
+#current_view {
+    display: block;
+    height: 38px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#current_view > div {
+    float: left;
+    margin-right: 3px;
+}
+
+#rundemo {
+    margin-top: 5px;
+}
+
+.unsafe{
+    color:#cb2121;
+}
+
+.safe{
+    color:#90c469;
+}

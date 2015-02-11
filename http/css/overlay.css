@@ -1,0 +1,22 @@
+@CHARSET "ISO-8859-1";
+
+.overlay_div
+{
+    background:#f3f3f3;
+    opacity:0.8;
+    z-index:100000;
+}
+
+.overlay_table {
+    height: 100% !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    width: 100% !important ;
+    border-collapse: separate !important;
+}
+
+.overlay_img {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}

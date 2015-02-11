@@ -1,0 +1,19 @@
+{
+ "name": "flare",
+ "children": [
+  {
+   "name": "negative",
+   "size": 20
+  },
+  {
+   "name": "mid_explicit",
+   "size": 3,
+   "label": "mid"
+  },
+  {
+   "name":"super_explicit",
+   "size":3,
+   "label": "super"
+  }
+ ]
+}

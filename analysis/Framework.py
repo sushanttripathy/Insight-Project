@@ -29,7 +29,11 @@ class DownloadFiles(object):
 
     def __download_file(self, file_url, destination):
         try:
-            downloader = urllib2.urlopen(file_url)
+            opener = urllib2.build_opener()
+            opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')]
+            response = opener.open(file_url)
+            content = response.read()
+            code = response.code
             destination_path = os.path.join(destination, os.path.basename(file_url))
             self.lock.acquire()
             if destination_path in self.coordinator:
@@ -40,8 +44,9 @@ class DownloadFiles(object):
             else:
                 self.coordinator[destination_path] = 1
             self.lock.release()
-            with open(destination_path, "wb") as downloaded_file:
-                downloaded_file.write(downloader.read())
+            if 200 <= code <= 400:
+                with open(destination_path, "wb") as downloaded_file:
+                    downloaded_file.write(content)
         except:
             # not issuing any message as that makes for an irritating frontend experience
             pass
@@ -106,7 +111,7 @@ class Framework(Web):
         cmd = Command("phantomjs phantom_load.js " + url + " " + screenshot_image_path)
         cmd.run(120)  #run the screenshotting command with a time-out of 120 seconds
 
-
+"""
 #Usage example:
 cwd = os.curdir
 images_folder = os.path.join(cwd, "..", "data", "raw", "images")
@@ -120,3 +125,4 @@ code, content = F.get_url_contents(url)
 
 F.get_images(content['images_urls'], images_folder)
 F.get_snapshot(url, screenshot_path)
+"""
